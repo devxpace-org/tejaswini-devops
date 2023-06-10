@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  TejaswiniEC2Instance01:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-024fc608af8f886bc
+      InstanceType: t2.micro
+      AvailabilityZone: us-east-1a
+
+
+  TejaswiniEC2Instance02:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-024fc608af8f886bc
+      InstanceType: t2.micro
+      AvailabilityZone: us-east-1a
+
+  TejaswiniEBSVolume01:
+    Type: AWS::EC2::Volume
+    Properties: 
+      AvailabilityZone: us-east-1a
+      Size: 5
+
+  TejaswiniEBSVolume02:
+    Type: AWS::EC2::Volume
+    Properties: 
+      AvailabilityZone: us-east-1a
+      Size: 6
+
+  EC2VolumeAttachment01:
+    Type: AWS::EC2::VolumeAttachment
+    Properties: 
+      Device: /dev/sdh
+      InstanceId: !Ref TejaswiniEC2Instance01
+      VolumeId: !Ref TejaswiniEBSVolume01
+
+  EC2VolumeAttachment02:
+    Type: AWS::EC2::VolumeAttachment
+    Properties: 
+      Device: /dev/sdh
+      InstanceId: !Ref TejaswiniEC2Instance02
+      VolumeId: !Ref TejaswiniEBSVolume02
+  TejaswiniS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: tejaswinis3
+
+  TejaswiniS3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: tejaswini-s3-access-policy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - s3.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Description: Role to provide access to S3
+      Policies:
+        - PolicyName: Tejaswini-read-write-s3-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                - s3:GetBucketLocation
+                - s3:ListAllMyBuckets
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                - s3:ListBucket
+                Resource:
+                - arn:aws:s3:::test
+              - Effect: Allow
+                Action:
+                - s3:PutObject
+                - s3:GetObject
+                - s3:DeleteObject
+                Resource:
+                - !Sub arn:aws:s3:::${TejaswiniS3Bucket}
+                - !Sub arn:aws:s3:::${TejaswiniS3Bucket}/*
+            
+  TejaswiniLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: tejaswiniloadbalancer
+      Scheme: internet-facing
+      Type: network
+      Subnets:
+        - subnet-0d857af2830c5589c
+      
+
+  TejaswiniTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: TejaswiniTargetGroup
+      Port: 80
+      Protocol: TCP
+      VpcId: vpc-0d349cc4333a5fc76
+      Targets:
+        - Id: !Ref TejaswiniEC2Instance01
+          Port: 80
+          #AvailabilityZone: us-east-1a
+        - Id: !Ref TejaswiniEC2Instance02
+          Port: 80
+          #AvailabilityZone: us-east-1a
+
+  TejaswiniListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref TejaswiniLoadBalancer
+      Port: 80
+      Protocol: TCP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TejaswiniTargetGroup

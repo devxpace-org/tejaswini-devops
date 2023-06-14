@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2010-09-09
+EAWSTemplateFormatVersion: 2010-09-09
 
 Resources:
   TejaswiniEC2Instance01:

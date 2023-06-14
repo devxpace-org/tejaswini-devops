@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creating Auto Scaling Groups
+
+Resources:
+  tejaswinilaunchtemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: ami-09988af04120b3591
+        InstanceType: t2.micro
+        KeyName: 777
+      LaunchTemplateName: launchtemplate1
+  
+
+  tejaswiniloadbalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: aloadbalancer
+      Scheme: internet-facing
+      Type: network
+      Subnets:
+        - subnet-0d857af2830c5589c
+
+
+  tejaswinitargetgroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: targetgroup
+      Port: 80
+      Protocol: TCP
+      VpcId: vpc-0d349cc4333a5fc76 
+
+  tejaswinilistener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref tejaswiniloadbalancer
+      Port: 80
+      Protocol: TCP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref tejaswinitargetgroup
+
+
+  tejaswiniautoscaling:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: autoscaling
+      AvailabilityZones: 
+        - us-east-1c
+      DesiredCapacity: 3
+      MinSize: 2
+      MaxSize: 4
+      LaunchTemplate: 
+        LaunchTemplateId: !Ref tejaswinilaunchtemplate
+        Version: !GetAtt tejaswinilaunchtemplate.LatestVersionNumber
+      TargetGroupARNs: 
+        - !Ref tejaswinitargetgroup

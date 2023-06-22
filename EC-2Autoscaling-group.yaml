@@ -44,7 +44,7 @@ Resources:
   tejaswiniautoscaling:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      AutoScalingGroupName: autoscaling
+      AutoScalingGroupName: autoscalinggit
       AvailabilityZones: 
         - us-east-1c
       DesiredCapacity: 3

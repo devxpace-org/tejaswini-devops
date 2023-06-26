@@ -4,10 +4,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-
                 sh 'sudo chmod 666 /var/run/docker.sock'
                 // Clone the repository containing the Dockerfile
-                git 'https://github.com/devxpace-org/tejaswini-devops'
+                git url: 'https://github.com/devxpace-org/tejaswini-devops'
 
                 // Build the Docker image
                 sh 'docker build -t jenkinsimage .'
@@ -19,9 +18,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 // Log in to Docker Hub
-                
-                withCredentials([usernamePassword(credentialsId: '1659e3d9-e78c-4b77-8e6a-1f5dc947dc28', passwordVariable: 'Tejaswini9@', usernameVariable: 'tejaswini8790')]) {
-                    sh 'docker login -u $tejaswini8790 -p $Tejaswini9@'
+                withCredentials([usernamePassword(credentialsId: '1659e3d9-e78c-4b77-8e6a-1f5dc947dc28', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+                    sh 'docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD'
                 }
 
                 // Push the Docker image to Docker Hub

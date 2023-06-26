@@ -17,6 +17,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 // Log in to Docker Hub
+                sh 'sudo chmod 666 /var/run/docker.sock'
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'Tejaswini9@', usernameVariable: 'tejaswini8790')]) {
                     sh 'docker login -u $tejaswini8790 -p $Tejaswini9@'
                 }

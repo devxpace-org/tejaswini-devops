@@ -3,10 +3,11 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps {
+            steps { 
+                sh 'sudo chmod 666 /var/run/docker.sock'
                 // Clone the repository containing the Dockerfile
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
-
+                
                 // Build the Docker image
                 sh 'docker build -t jenkinsimage .'
 
@@ -14,12 +15,7 @@ pipeline {
                 sh 'docker tag jenkinsimage tejaswini8790/jenkinsimage'
             }
         }
-        stage('Set Docker Socket Permissions') {
-            steps {
-                // Set Docker socket permissions as the root user
-                sh 'sudo chmod 666 /var/run/docker.sock'
-            }
-        }
+
         stage('Push to Docker Hub') {
             steps {
                 // Log in to Docker Hub

@@ -9,10 +9,9 @@ pipeline {
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
                
                 // Build the Docker image
-                sh 'docker build -t nicejob .'
+                sh 'docker build -t tejaswini8790/nicejob nicejob .'
 
-                // Tag the image with the Docker Hub repository name
-                sh 'docker tag helloimage tejaswini8790/nicejob'
+                
             }
         }
 

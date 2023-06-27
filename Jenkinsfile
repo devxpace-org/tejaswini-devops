@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps { 
-                sh 'sudo chmod 666 /var/run/docker.sock'
+              
                 // Clone the repository containing the Dockerfile
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
                 

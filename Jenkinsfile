@@ -4,15 +4,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                
+                git url: 'https://github.com/devxpace-org/tejaswini-devops'
                 sh 'sudo chmod 666 /var/run/docker.sock'
                 // Clone the repository containing the Dockerfile
-                git url: 'https://github.com/devxpace-org/tejaswini-devops'
-
                 // Build the Docker image
-                sh 'docker build -t jenkinsimage .'
-
+                sh 'docker build -t helloworldimage .'
+                
                 // Tag the image with the Docker Hub repository name
-                sh 'docker tag jenkinsimage tejaswini8790/jenkinsimage'
+                sh 'docker tag jenkinsimage tejaswini8790/helloworldimage'
             }
         }
         stage('Push to Docker Hub') {
@@ -23,7 +23,7 @@ pipeline {
                 }
 
                 // Push the Docker image to Docker Hub
-                sh 'docker push tejaswini8790/jenkinsimage'
+                sh 'docker push tejaswini8790/helloworldimage'
             }
         }
     }

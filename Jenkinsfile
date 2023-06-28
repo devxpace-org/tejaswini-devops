@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
-                sh 'sudo chmod 666 /var/run/docker.sock'
+              
                 sh 'docker build -t nicejob .'
                 sh 'docker tag nicejob tejaswini8790/nicejob'
             }

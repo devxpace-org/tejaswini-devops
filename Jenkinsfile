@@ -1,20 +1,20 @@
 pipeline {
     agent any
 
-    stages {
+     stages {
         stage('Build') {
-<<<<<<< HEAD
+
             steps {
                 
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
                 sh 'sudo chmod 666 /var/run/docker.sock'
                 // Clone the repository containing the Dockerfile
                 // Build the Docker image
-                sh 'docker build -t helloworldimage .'
+                sh 'docker build -t nicejob .'
                 
                 // Tag the image with the Docker Hub repository name
-                sh 'docker tag jenkinsimage tejaswini8790/helloworldimage'
-=======
+                sh 'docker tag jenkinsimage tejaswini8790/nicejob'
+
             steps { 
               
                 // Clone the repository containing the Dockerfile
@@ -24,7 +24,7 @@ pipeline {
                 sh 'docker build -t nicejob .'
                 sh 'docker tag nicejob tejaswini8790/nicejob'
                 
->>>>>>> 9af92cb0a71f6febb9a8dbb8559093ef5d85ef09
+
             }
         }
 
@@ -36,9 +36,9 @@ pipeline {
                 }
 
                 // Push the Docker image to Docker Hub
-<<<<<<< HEAD
-                sh 'docker push tejaswini8790/helloworldimage'
-=======
+
+                sh 'docker push tejaswini8790/nicejob'
+
                 sh 'docker push tejaswini8790/nicejob'
 >>>>>>> 9af92cb0a71f6febb9a8dbb8559093ef5d85ef09
             }

@@ -40,7 +40,7 @@ pipeline {
                 sh 'docker push tejaswini8790/nicejob'
 
                 sh 'docker push tejaswini8790/nicejob'
->>>>>>> 9af92cb0a71f6febb9a8dbb8559093ef5d85ef09
+
             }
         }
     }

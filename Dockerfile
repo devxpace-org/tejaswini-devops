@@ -7,4 +7,4 @@ WORKDIR /app/devxpace/
 
 RUN npm install
 
-ENTRYPOINT ["node", "nicejob.js"]
+ENTRYPOINT ["node", "helloworld.js"]

@@ -7,7 +7,7 @@ pipeline {
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
               
                 sh 'docker build -t harshitha .'
-                sh 'docker tag tejaswini tejaswini8790/harshitha'
+                sh 'docker tag tejaswini tejaswini8790/tejaswini'
             }
         }
 

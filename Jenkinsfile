@@ -6,7 +6,7 @@ pipeline {
             steps {
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
               
-                sh 'docker build -t nicejob .'
+                sh 'docker build -t tejaswini .'
                 sh 'docker tag tejaswini tejaswini8790/tejaswini'
             }
         }

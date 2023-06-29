@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 git url: 'https://github.com/devxpace-org/tejaswini-devops'
-                 sh 'sudo docker build -t tejaswini8790/nicejob:tejaswini .'
+                 sh 'sudo build -t tejaswini8790/nicejob:tejaswini .'
             }
         }
 

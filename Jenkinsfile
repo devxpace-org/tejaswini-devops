@@ -17,7 +17,7 @@ pipeline {
                     sh 'sudo chmod 660 /var/run/docker.sock'
 
                 }
-                sh 'docker push tejaswini8790/nicejob:shahab'
+                sh 'docker push tejaswini8790/nicejob'
             }
         }
     }
